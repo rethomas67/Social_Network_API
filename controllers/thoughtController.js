@@ -1,8 +1,8 @@
 const { ObjectId } = require("mongoose").Types;
-const { User } = require("../models");
+const { User, Thought } = require("../models");
 
 module.exports = {
-  async getUsers(req, res) {
+  /*async getUsers(req, res) {
     try {
       const users = await User.find();
       const userObj = {
@@ -16,9 +16,9 @@ module.exports = {
   },
   async getUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId }).select(
-        "-__v"
-      );
+      const user = await User.findOne({ _id: req.params.userId })
+        .select("-__v")
+        .lean();
 
       if (!user) {
         return res.status(404).json({ message: "No user with that ID" });
@@ -31,16 +31,22 @@ module.exports = {
       console.log(err);
       return res.status(500).json(err);
     }
-  },
-  async createUser(req, res) {
+  },*/
+  async createThought(req, res) {
     try {
-      console.log(req.body);
-      const user = await User.create(req.body);
-      res.json(user);
+      console.log(req.body.userid);
+      const thought = await Thought.create(req.body);
+      const user = await User.findByIdAndUpdate(
+        req.body.userid,
+        { $addToSet: { thoughts: thought._id } },
+        { runValidators: true, new: true }
+      );
+      return res.status(200).json({ thought, user });
     } catch (err) {
       res.status(500).json(err);
     }
   },
+  /*
   async updateUser(req, res) {
     try {
       const user = await User.findOneAndUpdate(
@@ -71,5 +77,5 @@ module.exports = {
       console.log(err);
       res.status(500).json(err);
     }
-  },
+  },*/
 };

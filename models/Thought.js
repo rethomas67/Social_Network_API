@@ -1,30 +1,26 @@
+const dayjs = require("dayjs");
 const { Schema, model } = require("mongoose");
+dayJS = require("dayjs");
 
 const thoughtSchema = new Schema(
   {
     //username unique and required
-    thoughtText: {
+    thoughttext: {
       type: String,
       required: true,
-      trim: true,
+      minLength: 1,
+      maxLength: 280,
     },
     //email unique and required
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      //validate the email with regex
-      match: [
-        /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+.-]+\.([a-zA-Z]{2,5})$/,
-        "Email is not valid!",
-      ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: formatDate,
     },
-    thoughts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "thought",
-      },
-    ],
+    username: {
+      type: String,
+      required: true,
+    },
   },
   {
     toJSON: {
@@ -35,6 +31,10 @@ const thoughtSchema = new Schema(
   }
 );
 
-const User = model("user", userSchema);
+function formatDate(createdAt) {
+  return dayjs(createdAt).format("MMM DD hh:mm A");
+}
 
-module.exports = User;
+const Thought = model("thought", thoughtSchema);
+
+module.exports = Thought;
