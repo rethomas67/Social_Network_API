@@ -1,11 +1,10 @@
 const { Schema, model } = require("mongoose");
 
-const userSchema = new Schema(
+const thoughtSchema = new Schema(
   {
     //username unique and required
-    username: {
+    thoughtText: {
       type: String,
-      unique: true,
       required: true,
       trim: true,
     },
