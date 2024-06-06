@@ -1,6 +1,7 @@
 const dayjs = require("dayjs");
 const { Schema, model } = require("mongoose");
-dayJS = require("dayjs");
+const dayJS = require("dayjs");
+const reactionSchema = require("./Reaction");
 
 const thoughtSchema = new Schema(
   {
@@ -21,6 +22,7 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
