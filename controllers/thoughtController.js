@@ -2,36 +2,36 @@ const { ObjectId } = require("mongoose").Types;
 const { User, Thought } = require("../models");
 
 module.exports = {
-  /*async getUsers(req, res) {
+  async getThoughts(req, res) {
     try {
-      const users = await User.find();
-      const userObj = {
-        users,
+      const thoughts = await Thought.find();
+      const thoughtObj = {
+        thoughts,
       };
-      return res.json(userObj);
+      return res.json(thoughtObj);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
   },
-  async getUser(req, res) {
+  async getThought(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId })
-        .select("-__v")
-        .lean();
+      const thought = await Thought.findOne({
+        _id: req.params.thoughtId,
+      }).select("-__v");
 
-      if (!user) {
-        return res.status(404).json({ message: "No user with that ID" });
+      if (!thought) {
+        return res.status(404).json({ message: "No thought with that ID" });
       }
 
       res.json({
-        user,
+        thought,
       });
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
-  },*/
+  },
   async createThought(req, res) {
     try {
       console.log(req.body.userid);
@@ -46,36 +46,38 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  /*
-  async updateUser(req, res) {
+
+  async updateThought(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
-        { _id: req.params.userId },
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
         { $set: req.body },
         { runValidators: true, new: true }
       );
 
-      if (!user) {
-        return res.status(404).json({ message: "No user with this id!" });
+      if (!thought) {
+        return res.status(404).json({ message: "No thought with this id!" });
       }
 
-      res.json(user);
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  async deleteUser(req, res) {
+  async deleteThought(req, res) {
     try {
-      const user = await User.findOneAndRemove({ _id: req.params.userId });
+      const thought = await Thought.findOneAndRemove({
+        _id: req.params.thoughtId,
+      });
 
-      if (!user) {
-        return res.status(404).json({ message: "No such user exists" });
+      if (!thought) {
+        return res.status(404).json({ message: "No such thought exists" });
       }
 
-      res.json({ message: "User successfully deleted" });
+      res.json({ message: "Thought successfully deleted" });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
     }
-  },*/
+  },
 };
