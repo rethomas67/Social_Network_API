@@ -1,5 +1,6 @@
-const Test = require("./Test");
+//import users and thoughts
 const User = require("./User");
 const Thought = require("./Thought");
 
-module.exports = { Test, User, Thought };
+//export the modules for the app
+module.exports = { User, Thought };

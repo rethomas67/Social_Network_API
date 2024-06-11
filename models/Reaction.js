@@ -1,24 +1,28 @@
+//import the dayjs for formatting dates
 const dayjs = require("dayjs");
+//pull in mongoose to handle mongo nosql operations
 const { Schema, Types } = require("mongoose");
-dayJS = require("dayjs");
 
-const assignmentSchema = new Schema(
+//create the reaction schema
+const reactionSchema = new Schema(
   {
-    //username unique and required
+    // rectionId type is a unique hex identifier
     reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
     },
+    //the reaction text with a max length of 280 and required
     reactionBody: {
       type: String,
       required: true,
-      maxLengt: 280,
+      maxLength: 280,
     },
+    //user name of reaction creator, required
     userName: {
       type: String,
       required: true,
     },
-    //email unique and required
+    //the reaction creation date.  Uses a getter function formatDate to allow dayjs to format the date
     createdAt: {
       type: Date,
       default: Date.now,
@@ -37,4 +41,4 @@ function formatDate(createdAt) {
   return dayjs(createdAt).format("MMM DD hh:mm A");
 }
 
-module.exports = assignmentSchema;
+module.exports = reactionSchema;

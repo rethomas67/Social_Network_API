@@ -2,7 +2,9 @@ const { ObjectId } = require("mongoose").Types;
 const { User } = require("../models");
 
 module.exports = {
+  //get all users
   async getUsers(req, res) {
+    //get the users and return the json result
     try {
       const users = await User.find();
       const userObj = {
@@ -14,7 +16,9 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
+  //get user by id
   async getUser(req, res) {
+    //get a user by the request paramter user_id and return the json result
     try {
       const user = await User.findOne({ _id: req.params.userId }).select(
         "-__v"
@@ -32,17 +36,20 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
+  //add a new user
   async createUser(req, res) {
+    //add the contents of the request body to a new record
     try {
-      console.log(req.body);
       const user = await User.create(req.body);
       res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
   },
+  //update a user
   async updateUser(req, res) {
     try {
+      //filter by the user_Id and update the user record with the content in the request body
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $set: req.body },
@@ -60,6 +67,7 @@ module.exports = {
   },
   async deleteUser(req, res) {
     try {
+      //filter by the user_id parameter and remove the record
       const user = await User.findOneAndRemove({ _id: req.params.userId });
 
       if (!user) {
@@ -72,9 +80,10 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  //a self join to the user model. Adds another user as a friend
   async addFriend(req, res) {
     try {
-      console.log(req.params.userId);
+      //filters by user_id parameter and adds a friend by the friend_id parameter
       const friend = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $addToSet: { friends: req.params.friendId } },
@@ -91,8 +100,10 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  //delete a friend
   async deleteFriend(req, res) {
     try {
+      //filters by the user_id parameter and removes by the friend_id parameter
       const friend = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } },

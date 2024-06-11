@@ -20,12 +20,14 @@ const userSchema = new Schema(
         "Email is not valid!",
       ],
     },
+    //display the thoughts from the thought schema
     thoughts: [
       {
         type: Schema.Types.ObjectId,
         ref: "thought",
       },
     ],
+    //friend column is a self join to the user schema
     friends: [
       {
         type: Schema.Types.ObjectId,
@@ -42,6 +44,7 @@ const userSchema = new Schema(
   }
 );
 
+//virtual to add the number of friends the user has
 userSchema
   .virtual("friendCount")
   // Getter
